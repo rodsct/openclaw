@@ -35,9 +35,7 @@ services:
       SLACK_BOT_TOKEN: ${SLACK_BOT_TOKEN:-}
       SLACK_APP_TOKEN: ${SLACK_APP_TOKEN:-}
       # --- Dokploy Proxy Fixes ---
-      OPENCLAW_GATEWAY_CONTROL_UI_DANGEROUSLY_ALLOW_HOST_HEADER_ORIGIN_FALLBACK: "true"
-      OPENCLAW_GATEWAY_CONTROL_UI_ALLOWED_ORIGINS: '["*"]'
-      OPENCLAW_GATEWAY_TRUSTED_PROXIES: '["10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16", "100.64.0.0/10"]'
+      # Origins and trusted proxies are injected via CLI on startup below
       # --- Misc ---
       TZ: ${OPENCLAW_TZ:-UTC}
     volumes:
@@ -55,7 +53,7 @@ services:
     command:
       [
         "sh", "-c",
-        "chown -R node:node /home/node/.openclaw && exec runuser -u node -- node dist/index.js gateway --bind lan --port 18789 --allow-unconfigured"
+        "chown -R node:node /home/node/.openclaw && exec runuser -u node -- sh -c 'node dist/index.js config set gateway.controlUi.allowedOrigins \"[\\\"*\\\"]\" && node dist/index.js config set gateway.trustedProxies \"[\\\"10.0.0.0/8\\\",\\\"172.16.0.0/12\\\",\\\"192.168.0.0/16\\\",\\\"100.64.0.0/10\\\"]\" && exec node dist/index.js gateway --bind lan --port 18789 --allow-unconfigured'"
       ]
     healthcheck:
       test:
