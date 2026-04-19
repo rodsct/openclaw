@@ -53,7 +53,7 @@ services:
     command:
       [
         "sh", "-c",
-        "chown -R node:node /home/node/.openclaw && exec runuser -u node -- sh -c 'node dist/index.js config set gateway.controlUi.allowedOrigins \"[\\\"*\\\"]\" && node dist/index.js config set gateway.trustedProxies \"[\\\"10.0.0.0/8\\\",\\\"172.16.0.0/12\\\",\\\"192.168.0.0/16\\\",\\\"100.64.0.0/10\\\"]\" && exec node dist/index.js gateway --bind lan --port 18789 --allow-unconfigured'"
+        "chown -R node:node /home/node/.openclaw && exec runuser -u node -- sh -c 'node dist/index.js config set gateway.controlUi.allowedOrigins \"[\\\"*\\\"]\" && node dist/index.js config set gateway.trustedProxies \"[\\\"10.0.0.0/8\\\",\\\"172.16.0.0/12\\\",\\\"192.168.0.0/16\\\",\\\"100.64.0.0/10\\\"]\" && node dist/index.js config set gateway.controlUi.dangerouslyDisableDeviceAuth true && exec node dist/index.js gateway --bind lan --port 18789 --allow-unconfigured'"
       ]
     healthcheck:
       test:
