@@ -53,7 +53,7 @@ services:
     command:
       [
         "sh", "-c",
-        "chown -R node:node /home/node/.openclaw && exec runuser -u node -- sh -c 'node dist/index.js config set gateway.auth.token \"$$OPENCLAW_GATEWAY_TOKEN\" && node dist/index.js config set gateway.mode \"local\" && node dist/index.js config set gateway.auth.mode \"token\" && node dist/index.js config set gateway.trustedProxies \"[\\\"10.0.0.0/8\\\",\\\"172.16.0.0/12\\\",\\\"192.168.0.0/16\\\",\\\"100.64.0.0/10\\\"]\" && if [ -n \"$$OPENCLAW_GATEWAY_CONTROL_UI_ALLOWED_ORIGINS\" ]; then node dist/index.js config set gateway.controlUi.allowedOrigins.0 \"$$OPENCLAW_GATEWAY_CONTROL_UI_ALLOWED_ORIGINS\"; fi && exec node dist/index.js gateway --bind lan --port 18789'"
+        "chown -R node:node /home/node/.openclaw && exec runuser -u node -- sh -c 'node dist/index.js config set gateway.auth.token \"$$OPENCLAW_GATEWAY_TOKEN\" && node dist/index.js config set gateway.mode \"local\" && node dist/index.js config set gateway.auth.mode \"token\" && node dist/index.js config set gateway.trustedProxies \"[\\\"10.0.0.0/8\\\",\\\"172.16.0.0/12\\\",\\\"192.168.0.0/16\\\",\\\"100.64.0.0/10\\\"]\" && node dist/index.js config set gateway.controlUi.dangerouslyDisableDeviceAuth true --json && if [ -n \"$$OPENCLAW_GATEWAY_CONTROL_UI_ALLOWED_ORIGINS\" ]; then node dist/index.js config set gateway.controlUi.allowedOrigins.0 \"$$OPENCLAW_GATEWAY_CONTROL_UI_ALLOWED_ORIGINS\"; fi && exec node dist/index.js gateway --bind lan --port 18789'"
       ]
     healthcheck:
       test:
