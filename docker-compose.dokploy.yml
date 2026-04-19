@@ -21,8 +21,7 @@ services:
       HOME: /home/node
       TERM: xterm-256color
       NODE_ENV: production
-      # --- Gateway auth (REQUIRED) ---
-      OPENCLAW_GATEWAY_TOKEN: ${OPENCLAW_GATEWAY_TOKEN:-}
+      # --- Gateway auth (internal mapping) ---
       OPENCLAW_ALLOW_INSECURE_PRIVATE_WS: ${OPENCLAW_ALLOW_INSECURE_PRIVATE_WS:-}
       # --- Model provider keys (set at least one) ---
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
