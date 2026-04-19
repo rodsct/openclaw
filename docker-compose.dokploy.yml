@@ -46,16 +46,12 @@ services:
       - "18790"
     init: true
     restart: unless-stopped
+    # Start as root to fix volume permissions, then drop to node user
+    user: "root"
     command:
       [
-        "node",
-        "dist/index.js",
-        "gateway",
-        "--bind",
-        "lan",
-        "--port",
-        "18789",
-        "--allow-unconfigured",
+        "sh", "-c",
+        "chown -R node:node /home/node/.openclaw && exec runuser -u node -- node dist/index.js gateway --bind lan --port 18789 --allow-unconfigured"
       ]
     healthcheck:
       test:
@@ -95,7 +91,9 @@ services:
     stdin_open: true
     tty: true
     init: true
-    entrypoint: ["node", "dist/index.js"]
+    # Start as root to fix volume permissions, then drop to node user
+    user: "root"
+    entrypoint: ["sh", "-c", "chown -R node:node /home/node/.openclaw && exec runuser -u node -- node dist/index.js \"$@\"", "--"]
     depends_on:
       openclaw-gateway:
         condition: service_healthy
